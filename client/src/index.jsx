@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import IncidentList from './components/IncidentList.jsx';
 // import Promise from 'bluebird';
 
 class App extends React.Component {
@@ -11,7 +12,6 @@ class App extends React.Component {
       incidents: [],
       coords: ''
     };
-    // this.getIncidents();
   }
 
   getPosition() {
@@ -33,7 +33,7 @@ class App extends React.Component {
       },
       success: (data) => {
         this.setState({
-          incidents: data
+          incidents: data.incidents
         });
       }
     });
@@ -52,7 +52,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Lockr</h1>
-        {/* <IncidentList incidents={this.state.incidents} /> */}
+        <IncidentList incidents={this.state.incidents} />
         <div onClick={this.getIncidents.bind(this)}>Hello</div>
       </div>
     );
