@@ -10,40 +10,51 @@ class App extends React.Component {
     super(props);
     this.state = {
       incidents: [],
-      coords: ''
+      coords: '',
+      loadingLocation: false,
+      loadingData: false
     };
   }
 
   getPosition() {
+    console.log('getPosition');
+    this.setState({loadingLocation: true});
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition((location) => {
-        let lat = location.coords.latitude;
-        let long = location.coords.longitude;
-        resolve(lat + ',' + long);
+        let coords = location.coords.latitude + ',' + location.coords.longitude;
+        this.setState({
+          coords: coords,
+          loadingLocation: false});
+        resolve(coords);
       });
     });
   }
 
   // Sending to API. Refactor to send to server
   ajax(coords) {
+    console.log('ajax');
+    this.setState({ loadingData: true });
     $.ajax({
       url: '/theft',
+      type: 'POST',
       data: {
-        proximity: coords
+        coordinates: this.state.coords
       },
       success: (data) => {
-        this.setState({
-          incidents: data.incidents
-        });
+        console.log(data);
+        this.setState({ loadingData: false });
+        this.setState(data);
       }
     });
   }
 
   getIncidents() {
+    console.log('getIncidents');
+    this.setState({ incidents: [] });
 
     this.getPosition()
-      .then((result) => {
-        this.ajax(result);
+      .then((coords) => {
+        this.ajax(coords);
       });
 
   }
@@ -52,8 +63,10 @@ class App extends React.Component {
     return (
       <div>
         <h1>Lockr</h1>
+        <button onClick={this.getIncidents.bind(this)}>Should I Leave My Bike?</button>
+        {this.state.loadingLocation && <span><img src="./giphy.gif" style={{maxHeight: '20px', maxWidth: '20px'}}/>Getting Location</span>}
+        {this.state.loadingData && <span><img src="./giphy.gif" style={{ maxHeight: '20px', maxWidth: '20px' }}/>Getting Data</span>}
         <IncidentList incidents={this.state.incidents} />
-        <div onClick={this.getIncidents.bind(this)}>Hello</div>
       </div>
     );
   }

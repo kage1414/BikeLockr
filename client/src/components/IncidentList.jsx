@@ -11,17 +11,17 @@ class IncidentList extends React.Component {
     return (
       <table>
         <thead>
-          <tr>
-            <td>Title</td>
-            <td>Description</td>
-            <td>Address</td>
-            <td>Date</td>
-            <td>Image</td>
-          </tr>
+          {this.props.incidents.length > 0 &&
+            <tr>
+              <td>Title</td>
+              <td>Description</td>
+              <td>Address</td>
+              <td>Date</td>
+              <td>Image</td>
+            </tr>}
         </thead>
         <tbody>
           {this.props.incidents.map((incident) => {
-            console.log(incident);
             return <Incident data={incident} key={incident.id} />;
           })}
         </tbody>

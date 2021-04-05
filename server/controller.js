@@ -1,15 +1,40 @@
 const axios = require('axios');
+const Promise = require('bluebird');
+const helper = require('./helper.js');
 
 class Controller {
 
-  theft(req, res, next) {
+  theft(req, res) {
 
-    axios.get('https://bikewise.org:443/api/v2/incidents', {
-      proximity: req.body.proximity
-    })
+    let config = {
+      url: 'https://bikewise.org:443/api/v2/incidents',
+      method: 'GET',
+      params: {
+        proximity: req.body.coordinates,
+        proximity_square: 10
+      }
+    };
+
+    return axios(config)
       .then((response) => {
-        res.send(response);
-        next();
+
+        let incidents = response.data.incidents;
+        let atRisk = helper.atRisk(incidents);
+        incidents = helper.filter(incidents);
+
+
+        let data = {
+          incidents: incidents,
+          atRisk: atRisk
+        };
+
+        res.send(data);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+        res.sendStatus(404);
       });
 
   }
