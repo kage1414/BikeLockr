@@ -27,7 +27,7 @@ class App extends React.Component {
   // Sending to API. Refactor to send to server
   ajax(coords) {
     $.ajax({
-      url: 'https://bikewise.org:443/api/v2/incidents',
+      url: '/theft',
       data: {
         proximity: coords
       },
