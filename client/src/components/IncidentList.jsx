@@ -10,7 +10,7 @@ class IncidentList extends React.Component {
   render() {
     return (
       <div>
-        <h3>Incidents in the last 30 Days: </h3>
+        <h4>{this.props.incidents.length} Incidents in the last 30 Days: </h4>
         {this.props.incidents.map((incident) => {
           return <Incident data={incident} key={incident.id} />;
         })}

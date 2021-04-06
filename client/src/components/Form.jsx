@@ -4,20 +4,19 @@ class Form extends React.Component {
 
   constructor(props) {
     super(props);
-    this.getIncidents = this.getIncidents.bind(this);
+    this.getNearbyIncidents = this.getNearbyIncidents.bind(this);
   }
 
-  getIncidents(e) {
-    console.log(e);
+  getNearbyIncidents(e) {
     e.preventDefault();
-    this.props.getIncidents();
+    this.props.getNearbyIncidents();
   }
 
   render() {
     return (
       <form>
-        <input type="text"></input>
-        <input type="submit" onClick={this.getIncidents} value="Should I Leave My Bike?"></input>
+        {/* <input type="text"></input> */}
+        <input type="submit" onClick={this.getNearbyIncidents} value="Should I Leave My Bike Unattended?"></input>
       </form>
     );
   }

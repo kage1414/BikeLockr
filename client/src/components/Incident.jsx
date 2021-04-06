@@ -5,15 +5,15 @@ const Incident = (props) => {
   let date = new Date(props.data.occurred_at * 1000);
 
   return (
-    <div style={{width: 'auto', height: 'auto', border: '1px solid black', fontSize: '18px'}}>
+    <div style={{width: 'auto', height: 'auto', border: '1px solid black', fontSize: '18px', fontFamily: 'Arial'}}>
       {props.data.title}
-      <div style={{ fontSize: '16px'}}>
+      <div style={{ fontSize: '11px', fontStyle: 'bold'}}>
         {props.data.description}
       </div>
-      <div style={{ fontSize: '12px' }}>
+      <div style={{ fontSize: '10px' }}>
         {props.data.address}
       </div>
-      <div style={{ fontSize: '12px', fontStyle: 'italic' }}>
+      <div style={{ fontSize: '9px', fontStyle: 'italic' }}>
         {date.toDateString()}
       </div>
     </div>

@@ -20,49 +20,66 @@ class App extends React.Component {
   }
 
   getPosition() {
-    console.log('getPosition');
-    this.setState({loadingLocation: true});
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition((location) => {
         let coords = location.coords.latitude + ',' + location.coords.longitude;
-        this.setState({
-          coords: coords,
-          loadingLocation: false});
         resolve(coords);
       });
     });
   }
 
-  ajax(coords) {
-    console.log('ajax');
-    this.setState({ loadingData: true });
-    $.ajax({
-      url: '/theft',
-      type: 'POST',
-      data: {
-        coordinates: this.state.coords
-      },
-      success: (data) => {
-        console.log(data);
-        this.setState({
-          loadingData: false,
-          instantiated: true });
-        this.setState(data);
-      }
+  ajax() {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: '/theft',
+        type: 'POST',
+        data: {
+          coordinates: this.state.coords
+        },
+        success: (data) => {
+          resolve(data);
+        },
+        error: (err) => {
+          reject(err);
+        }
+      });
     });
   }
 
-  getIncidents() {
-    console.log('getIncidents');
+  getNearbyIncidents() {
+
     this.setState({
-      incidents: []
+      incidents: [],
+      loadingLocation: true
     });
 
     this.getPosition()
       .then((coords) => {
-        this.ajax(coords);
-      });
 
+        this.setState({
+          coords: coords,
+          loadingLocation: false,
+          loadingData: true
+        });
+
+        return this.ajax();
+      })
+      .then((data) => {
+        let otherState = {
+          loadingData: false,
+          instantiated: true
+        };
+
+        let state = Object.assign(data, otherState);
+
+        this.setState(state);
+      })
+      .catch((err) => {
+        this.setState({
+          loadingData: false
+        });
+        console.log(err);
+      });
   }
 
   render() {
@@ -76,7 +93,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Lockr</h1>
-        <Form getIncidents={this.getIncidents.bind(this)} />
+        <Form getNearbyIncidents={this.getNearbyIncidents.bind(this)} />
         <AtRisk instantiated={this.state.instantiated} atRisk={this.state.atRisk} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} />
         {renderIncidentList()}
