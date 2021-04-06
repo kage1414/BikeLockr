@@ -33,7 +33,6 @@ class App extends React.Component {
     });
   }
 
-  // Sending to API. Refactor to send to server
   ajax(coords) {
     console.log('ajax');
     this.setState({ loadingData: true });
@@ -45,7 +44,9 @@ class App extends React.Component {
       },
       success: (data) => {
         console.log(data);
-        this.setState({ loadingData: false });
+        this.setState({
+          loadingData: false,
+          instantiated: true });
         this.setState(data);
       }
     });
@@ -54,8 +55,7 @@ class App extends React.Component {
   getIncidents() {
     console.log('getIncidents');
     this.setState({
-      incidents: [],
-      instantiated: true
+      incidents: []
     });
 
     this.getPosition()
@@ -66,17 +66,23 @@ class App extends React.Component {
   }
 
   render() {
+
+    const renderIncidentList = () => {
+      if (this.state.incidents.length > 0) {
+        return <IncidentList incidents={this.state.incidents} />;
+      }
+    };
+
     return (
       <div>
         <h1>Lockr</h1>
         <Form getIncidents={this.getIncidents.bind(this)} />
+        <AtRisk instantiated={this.state.instantiated} atRisk={this.state.atRisk} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} />
-        <AtRisk instantiated={this.state.instantiated} />
-        <IncidentList incidents={this.state.incidents} />
+        {renderIncidentList()}
       </div>
     );
   }
-
 }
 
 ReactDOM.render(<App/>, document.getElementById('root'));

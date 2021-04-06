@@ -3,10 +3,6 @@ import React from 'react';
 const Incident = (props) => {
 
   let date = new Date(props.data.occurred_at * 1000);
-  let styles = {
-    maxHeight: '100px',
-    maxWidth: '100px'
-  };
 
   return (
     <div style={{width: 'auto', height: 'auto', border: '1px solid black', fontSize: '18px'}}>
