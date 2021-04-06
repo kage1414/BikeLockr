@@ -9,25 +9,11 @@ class IncidentList extends React.Component {
 
   render() {
     return (
-      // <table>
-      //   <thead>
-      //     {this.props.incidents.length > 0 &&
-      //       <tr>
-      //         <td>Title</td>
-      //         <td>Description</td>
-      //         <td>Address</td>
-      //         <td>Date</td>
-      //         <td>Image</td>
-      //       </tr>}
-      //   </thead>
-      //   <tbody>
       <div>
         {this.props.incidents.map((incident) => {
           return <Incident data={incident} key={incident.id} />;
         })}
       </div>
-      //   </tbody>
-      // </table>
     );
   }
 }
