@@ -8,6 +8,7 @@ class Form extends React.Component {
   }
 
   getIncidents(e) {
+    console.log(e);
     e.preventDefault();
     this.props.getIncidents();
   }
@@ -15,8 +16,8 @@ class Form extends React.Component {
   render() {
     return (
       <form>
-        <button onClick={this.getIncidents}>Should I Leave My Bike?</button>
         <input type="text"></input>
+        <input type="submit" onClick={this.getIncidents} value="Should I Leave My Bike?"></input>
       </form>
     );
   }
