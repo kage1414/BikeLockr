@@ -9,15 +9,22 @@ const Incident = (props) => {
   };
 
   return (
-    <tr>
-      <td>{props.data.title}</td>
-      <td>{props.data.description}</td>
-      <td>{props.data.address}</td>
-      <td>{date.toString()}</td>
-      {props.data.media.image_url_thumb &&
-        <td><a href={props.data.media.image_url}><img src={props.data.media.image_url} style={styles} /></a></td>
-      }
-    </tr>
+    // <tr>
+    //   <td>
+    <div style={{width: 'auto', height: 'auto', border: '1px solid black', fontSize: '18px'}}>
+      {props.data.title}
+      <div style={{ fontSize: '14px'}}>
+        {props.data.description}
+      </div>
+      <div style={{ fontSize: '14px' }}>
+        {props.data.address}
+      </div>
+      <div style={{ fontSize: '14px' }}>
+        {date.toString()}
+      </div>
+    </div>
+    //   </td>
+    // </tr>
   );
 };
 

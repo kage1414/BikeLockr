@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import IncidentList from './components/IncidentList.jsx';
+import Form from './components/Form.jsx';
 // import Promise from 'bluebird';
 
 class App extends React.Component {
@@ -63,9 +64,10 @@ class App extends React.Component {
     return (
       <div>
         <h1>Lockr</h1>
-        <button onClick={this.getIncidents.bind(this)}>Should I Leave My Bike?</button>
-        {this.state.loadingLocation && <span><img src="./giphy.gif" style={{maxHeight: '20px', maxWidth: '20px'}}/>Getting Location</span>}
-        {this.state.loadingData && <span><img src="./giphy.gif" style={{ maxHeight: '20px', maxWidth: '20px' }}/>Getting Data</span>}
+        <Form getIncidents={this.getIncidents.bind(this)}/>
+        {/* {this.state.atRisk && <div style={{fontSize: '40px'}}>No</div>}
+        {this.state.loadingLocation && <span><img src="./giphy.gif" style={{ padding: '5px', maxHeight: '20px', maxWidth: '20px'}}/>Getting Location</span>}
+        {this.state.loadingData && <span><img src="./giphy.gif" style={{ padding: '5px', maxHeight: '20px', maxWidth: '20px' }}/>Retrieving Data From Server</span>} */}
         <IncidentList incidents={this.state.incidents} />
       </div>
     );
