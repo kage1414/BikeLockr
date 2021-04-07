@@ -1,6 +1,7 @@
 const axios = require('axios');
 const Promise = require('bluebird');
 const helper = require('./helper.js');
+const TOKEN = require('../config.js');
 
 class Controller {
 
@@ -11,7 +12,7 @@ class Controller {
       method: 'GET',
       params: {
         proximity: req.query.coordinates,
-        'proximity_square': 10
+        'proximity_square': 5
       }
     };
 
@@ -40,10 +41,22 @@ class Controller {
   }
 
   weather(req, res) {
+    let coords = req.query.coordinates.split(',');
+    console.log(req.query);
 
+    let config = {
+      url: `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[0]}&lon=${coords[1]}&exclude=hourly,daily&appid=${TOKEN.weatherTOKEN}`,
+      method: 'GET'
+    };
 
-
-
+    return axios(config)
+      .then((response) => {
+        res.send(response.data);
+      })
+      .catch((err) => {
+        res.status(400);
+        res.send(err);
+      });
   }
 
 }

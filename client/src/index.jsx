@@ -68,6 +68,13 @@ class App extends React.Component {
       });
   }
 
+  getWeatherData() {
+    return axios.get('/weather', { params: { coordinates: this.state.coords } })
+      .then((data) => {
+        console.log(data);
+      });
+  }
+
   render() {
 
     const renderIncidentList = () => {
@@ -79,6 +86,7 @@ class App extends React.Component {
     return (
       <div>
         <Form getNearbyIncidents={this.getNearbyIncidents.bind(this)} />
+        <button onClick={this.getWeatherData.bind(this)}></button>
         <AtRisk instantiated={this.state.instantiated} theft={this.state.theft} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} />
         {renderIncidentList()}
