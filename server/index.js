@@ -14,8 +14,6 @@ app.use(bodyParser.json());
 
 app.get('/theft', controller.theft);
 
-app.get('/weather', controller.weather);
-
 app.listen(PORT, () => {
   console.log('Listening on port:', PORT);
 });
