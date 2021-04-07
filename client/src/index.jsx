@@ -12,14 +12,14 @@ class App extends React.Component {
     super(props);
     this.state = {
       incidents: [],
-      coords: '',
       lat: '',
       lon: '',
       loadingLocation: false,
       loadingWeather: false,
       loadingData: false,
-      instantiated: false,
-      error: false
+      initialized: false,
+      error: false,
+      epochRainTime: false
     };
   }
 
@@ -27,7 +27,6 @@ class App extends React.Component {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition((location) => {
         let data = {
-          coords: location.coords.latitude + ',' + location.coords.longitude,
           lat: location.coords.latitude,
           lon: location.coords.longitude
         };
@@ -37,7 +36,8 @@ class App extends React.Component {
   }
 
   getTheftData() {
-    return axios.get('/theft', { params: {coordinates: this.state.coords}})
+    let coordinates = this.state.lat + ',' + this.state.lon;
+    return axios.get('/theft', { params: {coordinates: coordinates}})
       .then((incidents) => {
         return incidents.data;
       });
@@ -91,7 +91,7 @@ class App extends React.Component {
       .then((data) => {
         let otherState = {
           loadingWeather: false,
-          instantiated: true
+          initialized: true
         };
 
         let state = Object.assign(data, otherState);
@@ -124,7 +124,7 @@ class App extends React.Component {
       <div>
         <h1>Bike Lockr</h1>
         <Form getNearbyIncidents={this.gatherData.bind(this)} />
-        <AtRisk instantiated={this.state.instantiated} theft={this.state.theft} minutes={this.state.minutes} />
+        <AtRisk initialized={this.state.initialized} theft={this.state.theft} epochRainTime={this.state.epochRainTime} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} weather={this.state.loadingWeather} />
         {this.state.incidents.length > 0 &&
         <IncidentList incidents={this.state.incidents} />}

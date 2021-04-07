@@ -2,11 +2,9 @@ import React from 'react';
 
 const Weather = (props) => {
 
-  let date = new Date(props.minutes * 1000);
-
-  if (props.minutes) {
+  if (props.rainsIn.getTime() > 0) {
     return (
-      <div>Precipitation predicted at {date.toTimeString()}</div>
+      <div>Precipitation predicted ~{Math.floor(props.rainsIn.getTime() / 1000 / 60)} minutes</div>
     );
   } else {
     return (

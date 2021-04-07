@@ -55,10 +55,11 @@ class Controller {
     return axios(config)
       .then((response) => {
 
-        let minutes = helper.filterWeather(response.data);
+        let epochRainTime = helper.filterWeather(response.data);
 
         let data = {
-          minutes: minutes
+          epochRainTime: epochRainTime
+          // epochRainTime: 1617837951
         };
         res.send(data);
       })
