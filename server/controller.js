@@ -20,9 +20,8 @@ class Controller {
       .then((response) => {
 
         let incidents = response.data.incidents;
-        let atRisk = helper.atRisk(incidents);
-        incidents = helper.filter(incidents);
-
+        let atRisk = helper.atRiskIncidents(incidents);
+        incidents = helper.filterTheft(incidents);
 
         let data = {
           incidents: incidents,
@@ -45,13 +44,19 @@ class Controller {
     console.log(req.query);
 
     let config = {
-      url: `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[0]}&lon=${coords[1]}&exclude=hourly,daily&appid=${TOKEN.weatherTOKEN}`,
+      url: `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[0]}&lon=${coords[1]}&exclude=daily&appid=${TOKEN.weatherTOKEN}`,
       method: 'GET'
     };
 
     return axios(config)
       .then((response) => {
-        res.send(response.data);
+
+        let minutes = helper.filterWeather(response.data);
+
+        let data = {
+          minutes: minutes
+        };
+        res.send(data);
       })
       .catch((err) => {
         res.status(400);

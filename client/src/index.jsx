@@ -32,6 +32,50 @@ class App extends React.Component {
     return axios.get('/theft', { params: {coordinates: this.state.coords}});
   }
 
+  getWeatherData() {
+    return axios.get('/weather', { params: { coordinates: this.state.coords } })
+      .then((data) => {
+        return data;
+      });
+  }
+
+  getFutureWeather() {
+
+    this.setState({
+      incidents: [],
+      loadingLocation: true
+    });
+
+    this.getPosition()
+      .then((coords) => {
+
+        this.setState({
+          coords: coords,
+          loadingLocation: false,
+          loadingData: true
+        });
+
+        return this.getWeatherData();
+      })
+      .then((res) => {
+        let otherState = {
+          loadingData: false,
+          instantiated: true
+        };
+
+        let state = Object.assign(res.data, otherState);
+
+        this.setState(state);
+      })
+      .catch((err) => {
+        this.setState({
+          loadingData: false
+        });
+        console.log(err);
+      });
+
+  }
+
   getNearbyIncidents() {
 
     this.setState({
@@ -68,13 +112,6 @@ class App extends React.Component {
       });
   }
 
-  getWeatherData() {
-    return axios.get('/weather', { params: { coordinates: this.state.coords } })
-      .then((data) => {
-        console.log(data);
-      });
-  }
-
   render() {
 
     const renderIncidentList = () => {
@@ -86,7 +123,7 @@ class App extends React.Component {
     return (
       <div>
         <Form getNearbyIncidents={this.getNearbyIncidents.bind(this)} />
-        <button onClick={this.getWeatherData.bind(this)}></button>
+        <button onClick={this.getFutureWeather.bind(this)}></button>
         <AtRisk instantiated={this.state.instantiated} theft={this.state.theft} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} />
         {renderIncidentList()}
