@@ -92,7 +92,6 @@ class App extends React.Component {
 
     return (
       <div>
-        <h1>Lockr</h1>
         <Form getNearbyIncidents={this.getNearbyIncidents.bind(this)} />
         <AtRisk instantiated={this.state.instantiated} atRisk={this.state.atRisk} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} />
