@@ -59,7 +59,6 @@ class Controller {
 
         let data = {
           epochRainTime: epochRainTime
-          // epochRainTime: 1617837951
         };
         res.send(data);
       })

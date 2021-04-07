@@ -121,7 +121,7 @@ class App extends React.Component {
     };
 
     return (
-      <div>
+      <div style={{textAlign: 'center'}}>
         <h1>Bike Lockr</h1>
         <Form getNearbyIncidents={this.gatherData.bind(this)} />
         <AtRisk initialized={this.state.initialized} theft={this.state.theft} epochRainTime={this.state.epochRainTime} />
