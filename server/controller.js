@@ -39,6 +39,13 @@ class Controller {
 
   }
 
+  weather(req, res) {
+
+
+
+
+  }
+
 }
 
 module.exports = Controller;
