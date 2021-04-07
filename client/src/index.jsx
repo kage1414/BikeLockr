@@ -37,7 +37,10 @@ class App extends React.Component {
   }
 
   getTheftData() {
-    return axios.get('/theft', { params: {coordinates: this.state.coords}});
+    return axios.get('/theft', { params: {coordinates: this.state.coords}})
+      .then((incidents) => {
+        return incidents.data;
+      });
   }
 
   getWeatherData() {
@@ -47,8 +50,8 @@ class App extends React.Component {
         lon: this.state.lon
       }
     })
-      .then((data) => {
-        return data;
+      .then((response) => {
+        return response.data;
       });
   }
 
@@ -73,25 +76,25 @@ class App extends React.Component {
 
         return this.getTheftData();
       })
-      .then((incidents) => {
+      .then((data) => {
         let otherState = {
           loadingData: false,
           loadingWeather: true
         };
 
-        let state = Object.assign(incidents.data, otherState);
+        let state = Object.assign(data, otherState);
 
         this.setState(state);
 
         return this.getWeatherData();
       })
-      .then((minutes) => {
+      .then((data) => {
         let otherState = {
           loadingWeather: false,
           instantiated: true
         };
 
-        let state = Object.assign(minutes.data, otherState);
+        let state = Object.assign(data, otherState);
 
         this.setState(state);
       })
