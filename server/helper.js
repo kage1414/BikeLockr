@@ -12,7 +12,7 @@ module.exports.atRiskIncidents = (incidents) => {
 
 module.exports.filterWeather = (weather) => {
   for (let i = 0; i < weather.minutely.length; i++) {
-    if (weather.minutely[i].precipitation !== 0) {
+    if (weather.minutely[i].precipitation > 0) {
       return weather.minutely[i].dt;
     }
   }
