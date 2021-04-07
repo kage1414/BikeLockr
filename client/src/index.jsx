@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import IncidentList from './components/IncidentList.jsx';
 import Form from './components/Form.jsx';
 import Loading from './components/Loading.jsx';
