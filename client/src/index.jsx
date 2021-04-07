@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import IncidentList from './components/IncidentList.jsx';
 import Form from './components/Form.jsx';
 import Loading from './components/Loading.jsx';
 import AtRisk from './components/AtRisk.jsx';
-import axios from 'axios';
+import Weather from './components/Weather.jsx';
 
 class App extends React.Component {
 
@@ -125,6 +126,7 @@ class App extends React.Component {
         <Form getNearbyIncidents={this.getNearbyIncidents.bind(this)} />
         <button onClick={this.getFutureWeather.bind(this)}></button>
         <AtRisk instantiated={this.state.instantiated} theft={this.state.theft} />
+        <Weather minutes={this.state.minutes} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} />
         {renderIncidentList()}
       </div>

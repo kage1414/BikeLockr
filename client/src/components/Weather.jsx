@@ -8,6 +8,10 @@ const Weather = (props) => {
     return (
       <div>Precipitation predicted at {date.toDateString()}</div>
     );
+  } else {
+    return (
+      <div></div>
+    );
   }
 
 };
