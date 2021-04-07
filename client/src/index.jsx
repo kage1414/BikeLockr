@@ -13,6 +13,8 @@ class App extends React.Component {
     this.state = {
       incidents: [],
       coords: '',
+      lat: '',
+      lon: '',
       loadingLocation: false,
       loadingWeather: false,
       loadingData: false,
@@ -23,8 +25,12 @@ class App extends React.Component {
   getPosition() {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition((location) => {
-        let coords = location.coords.latitude + ',' + location.coords.longitude;
-        resolve(coords);
+        let data = {
+          coords: location.coords.latitude + ',' + location.coords.longitude,
+          lat: location.coords.latitude,
+          lon: location.coords.longitude
+        };
+        resolve(data);
       });
     });
   }
@@ -34,7 +40,12 @@ class App extends React.Component {
   }
 
   getWeatherData() {
-    return axios.get('/weather', { params: { coordinates: this.state.coords } })
+    return axios.get('/weather', {
+      params: {
+        lat: this.state.lat,
+        lon: this.state.lon
+      }
+    })
       .then((data) => {
         return data;
       });
@@ -47,13 +58,16 @@ class App extends React.Component {
     });
 
     this.getPosition()
-      .then((coords) => {
+      .then((data) => {
 
-        this.setState({
-          coords: coords,
+        let otherState = {
           loadingLocation: false,
           loadingData: true
-        });
+        };
+
+        let state = Object.assign(data, otherState);
+
+        this.setState(state);
 
         return this.getTheftData();
       })

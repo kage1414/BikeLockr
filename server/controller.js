@@ -40,12 +40,16 @@ class Controller {
   }
 
   weather(req, res) {
-    let coords = req.query.coordinates.split(',');
-    console.log(req.query);
 
     let config = {
-      url: `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[0]}&lon=${coords[1]}&exclude=daily&appid=${TOKEN.weatherTOKEN}`,
-      method: 'GET'
+      url: 'https://api.openweathermap.org/data/2.5/onecall',
+      method: 'GET',
+      params: {
+        appid: TOKEN.weatherTOKEN,
+        lat: req.query.lat,
+        lon: req.query.lon,
+        exclude: 'daily'
+      }
     };
 
     return axios(config)
