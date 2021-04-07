@@ -122,10 +122,12 @@ class App extends React.Component {
 
     return (
       <div>
+        <h1>Bike Lockr</h1>
         <Form getNearbyIncidents={this.gatherData.bind(this)} />
         <AtRisk instantiated={this.state.instantiated} theft={this.state.theft} minutes={this.state.minutes} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} weather={this.state.loadingWeather} />
-        {renderIncidentList()}
+        {this.state.incidents.length > 0 &&
+        <IncidentList incidents={this.state.incidents} />}
       </div>
     );
   }
