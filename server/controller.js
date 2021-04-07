@@ -11,7 +11,7 @@ class Controller {
       method: 'GET',
       params: {
         proximity: req.query.coordinates,
-        proximity_square: 10
+        'proximity_square': 10
       }
     };
 
