@@ -18,7 +18,8 @@ class App extends React.Component {
       loadingLocation: false,
       loadingWeather: false,
       loadingData: false,
-      instantiated: false
+      instantiated: false,
+      error: false
     };
   }
 
@@ -54,7 +55,8 @@ class App extends React.Component {
   gatherData() {
 
     this.setState({
-      loadingLocation: true
+      loadingLocation: true,
+      error: false
     });
 
     this.getPosition()
@@ -92,6 +94,17 @@ class App extends React.Component {
         let state = Object.assign(minutes.data, otherState);
 
         this.setState(state);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+        this.setState({
+          loadingLocation: false,
+          loadingWeather: false,
+          loadingData: false,
+          error: err
+        });
       });
 
   }
