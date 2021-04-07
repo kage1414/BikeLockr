@@ -6,11 +6,11 @@ const Weather = (props) => {
 
   if (props.minutes) {
     return (
-      <div>Precipitation predicted at {date.toDateString()}</div>
+      <div>Precipitation predicted at {date.toTimeString()}</div>
     );
   } else {
     return (
-      <div></div>
+      <div>No precipitation in the forecast</div>
     );
   }
 

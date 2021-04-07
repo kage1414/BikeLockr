@@ -5,7 +5,6 @@ import IncidentList from './components/IncidentList.jsx';
 import Form from './components/Form.jsx';
 import Loading from './components/Loading.jsx';
 import AtRisk from './components/AtRisk.jsx';
-import Weather from './components/Weather.jsx';
 
 class App extends React.Component {
 
@@ -15,6 +14,7 @@ class App extends React.Component {
       incidents: [],
       coords: '',
       loadingLocation: false,
+      loadingWeather: false,
       loadingData: false,
       instantiated: false
     };
@@ -40,47 +40,9 @@ class App extends React.Component {
       });
   }
 
-  getFutureWeather() {
+  gatherData() {
 
     this.setState({
-      incidents: [],
-      loadingLocation: true
-    });
-
-    this.getPosition()
-      .then((coords) => {
-
-        this.setState({
-          coords: coords,
-          loadingLocation: false,
-          loadingData: true
-        });
-
-        return this.getWeatherData();
-      })
-      .then((res) => {
-        let otherState = {
-          loadingData: false,
-          instantiated: true
-        };
-
-        let state = Object.assign(res.data, otherState);
-
-        this.setState(state);
-      })
-      .catch((err) => {
-        this.setState({
-          loadingData: false
-        });
-        console.log(err);
-      });
-
-  }
-
-  getNearbyIncidents() {
-
-    this.setState({
-      incidents: [],
       loadingLocation: true
     });
 
@@ -95,22 +57,29 @@ class App extends React.Component {
 
         return this.getTheftData();
       })
-      .then((res) => {
+      .then((incidents) => {
         let otherState = {
           loadingData: false,
+          loadingWeather: true
+        };
+
+        let state = Object.assign(incidents.data, otherState);
+
+        this.setState(state);
+
+        return this.getWeatherData();
+      })
+      .then((minutes) => {
+        let otherState = {
+          loadingWeather: false,
           instantiated: true
         };
 
-        let state = Object.assign(res.data, otherState);
+        let state = Object.assign(minutes.data, otherState);
 
         this.setState(state);
-      })
-      .catch((err) => {
-        this.setState({
-          loadingData: false
-        });
-        console.log(err);
       });
+
   }
 
   render() {
@@ -123,11 +92,9 @@ class App extends React.Component {
 
     return (
       <div>
-        <Form getNearbyIncidents={this.getNearbyIncidents.bind(this)} />
-        <button onClick={this.getFutureWeather.bind(this)}></button>
-        <AtRisk instantiated={this.state.instantiated} theft={this.state.theft} />
-        <Weather minutes={this.state.minutes} />
-        <Loading location={this.state.loadingLocation} data={this.state.loadingData} />
+        <Form getNearbyIncidents={this.gatherData.bind(this)} />
+        <AtRisk instantiated={this.state.instantiated} theft={this.state.theft} minutes={this.state.minutes} />
+        <Loading location={this.state.loadingLocation} data={this.state.loadingData} weather={this.state.loadingWeather} />
         {renderIncidentList()}
       </div>
     );
