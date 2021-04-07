@@ -12,7 +12,7 @@ app.use(express.static(pathName));
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
-app.post('/theft', controller.theft);
+app.get('/theft', controller.theft);
 
 app.listen(PORT, () => {
   console.log('Listening on port:', PORT);

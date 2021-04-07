@@ -5,6 +5,7 @@ import IncidentList from './components/IncidentList.jsx';
 import Form from './components/Form.jsx';
 import Loading from './components/Loading.jsx';
 import AtRisk from './components/AtRisk.jsx';
+import axios from 'axios';
 
 class App extends React.Component {
 
@@ -28,22 +29,8 @@ class App extends React.Component {
     });
   }
 
-  ajax() {
-    return new Promise((resolve, reject) => {
-      $.ajax({
-        url: '/theft',
-        type: 'POST',
-        data: {
-          coordinates: this.state.coords
-        },
-        success: (data) => {
-          resolve(data);
-        },
-        error: (err) => {
-          reject(err);
-        }
-      });
-    });
+  getTheftData() {
+    return axios.get('/theft', { params: {coordinates: this.state.coords}});
   }
 
   getNearbyIncidents() {
@@ -62,15 +49,15 @@ class App extends React.Component {
           loadingData: true
         });
 
-        return this.ajax();
+        return this.getTheftData();
       })
-      .then((data) => {
+      .then((res) => {
         let otherState = {
           loadingData: false,
           instantiated: true
         };
 
-        let state = Object.assign(data, otherState);
+        let state = Object.assign(res.data, otherState);
 
         this.setState(state);
       })
@@ -93,7 +80,7 @@ class App extends React.Component {
     return (
       <div>
         <Form getNearbyIncidents={this.getNearbyIncidents.bind(this)} />
-        <AtRisk instantiated={this.state.instantiated} atRisk={this.state.atRisk} />
+        <AtRisk instantiated={this.state.instantiated} theft={this.state.theft} />
         <Loading location={this.state.loadingLocation} data={this.state.loadingData} />
         {renderIncidentList()}
       </div>

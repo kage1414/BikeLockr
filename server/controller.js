@@ -10,7 +10,7 @@ class Controller {
       url: 'https://bikewise.org:443/api/v2/incidents',
       method: 'GET',
       params: {
-        proximity: req.body.coordinates,
+        proximity: req.query.coordinates,
         proximity_square: 10
       }
     };
@@ -25,7 +25,7 @@ class Controller {
 
         let data = {
           incidents: incidents,
-          atRisk: atRisk
+          theft: atRisk
         };
 
         res.send(data);

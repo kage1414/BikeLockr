@@ -5,7 +5,7 @@ const AtRisk = (props) => {
   let risk;
   let subRisk;
 
-  if (props.atRisk) {
+  if (props.theft) {
     risk = 'No,';
     subRisk = 'Do not leave it unattended';
   } else {
