@@ -46,7 +46,7 @@ class Controller {
       url: 'https://api.openweathermap.org/data/2.5/onecall',
       method: 'GET',
       params: {
-        appid: TOKEN,
+        appid: TOKEN || require('../config.js').weatherTOKEN,
         lat: req.query.lat,
         lon: req.query.lon,
         exclude: 'daily'
