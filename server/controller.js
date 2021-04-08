@@ -57,7 +57,6 @@ class Controller {
       .then((response) => {
 
         let unixRainTime = helper.filterWeather(response.data);
-
         let data = {
           unixRainTime: process.env.weatherTime || unixRainTime
         };
