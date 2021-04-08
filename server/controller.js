@@ -1,7 +1,7 @@
 const axios = require('axios');
 const Promise = require('bluebird');
 const helper = require('./helper.js');
-const TOKEN = require('../config.js');
+const TOKEN = process.env.weatherTOKEN;
 
 class Controller {
 
@@ -45,7 +45,7 @@ class Controller {
       url: 'https://api.openweathermap.org/data/2.5/onecall',
       method: 'GET',
       params: {
-        appid: TOKEN.weatherTOKEN,
+        appid: TOKEN,
         lat: req.query.lat,
         lon: req.query.lon,
         exclude: 'daily'
