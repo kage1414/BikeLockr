@@ -59,7 +59,7 @@ class Controller {
         let epochRainTime = helper.filterWeather(response.data);
 
         let data = {
-          epochRainTime: epochRainTime
+          epochRainTime: process.env.weatherTime || epochRainTime
         };
         res.send(data);
       })
