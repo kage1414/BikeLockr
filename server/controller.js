@@ -12,7 +12,8 @@ class Controller {
       method: 'GET',
       params: {
         proximity: req.query.coordinates,
-        'proximity_square': 5
+        'proximity_square': 5,
+        'per_page': 500
       }
     };
 
